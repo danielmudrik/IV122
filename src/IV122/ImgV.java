@@ -1,5 +1,6 @@
 package IV122;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +13,10 @@ import java.util.logging.Logger;
  */
 public class ImgV {
     
+public static String folderName = "";
 private static PrintWriter svgFile;
+private static double w = 1000;
+private static double h = 1000;
     
 public ImgV(int width, int height, String fileName) {
     init(width, height, fileName);
@@ -20,8 +24,12 @@ public ImgV(int width, int height, String fileName) {
 
 //init svg file
 public static void init(int width, int height, String fileName) {
+    w = width;
+    h = height;
     try {
-        FileWriter fw = new FileWriter(fileName + ".svg");
+        File fvFile = new File(folderName);
+        fvFile.mkdirs();
+        FileWriter fw = new FileWriter(folderName + fileName + ".svg");
         svgFile = new PrintWriter(fw);
         svgFile.println("<?xml version=\"1.0\" standalone=\"no\"?>\n" +
 "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \n" +
@@ -38,24 +46,30 @@ public static void save() {
     svgFile.close();
 }
 //line of color
-public static void line(int x1, int y1, int x2, int y2, int red, int green, int blue, int swidth) {
+public static void line(double x1, double y1, double x2, double y2, int red, int green, int blue, double swidth) {
     svgFile.println("<line x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + 
             "\" style=\"stroke:rgb(" + red + "," + green + "," + blue + 
             ");stroke-width:" + swidth + "\" />");
 }
+
+public static void lineInverted(double x1, double y1, double x2, double y2, int red, int green, int blue, double swidth) {
+    svgFile.println("<line x1=\"" + (w-x1) + "\" y1=\"" + (h-y1) + "\" x2=\"" + (w-x2) + "\" y2=\"" + (h-y2) + 
+            "\" style=\"stroke:rgb(" + red + "," + green + "," + blue + 
+            ");stroke-width:" + swidth + "\" />");
+}
 //rect of color
-public static void rect(int width, int height, int red, int green, int blue) {
+public static void rect(double width, double height, int red, int green, int blue) {
     svgFile.println("<rect width=\"" + width + "\" height=\"" + height + 
             "\" style=\"stroke:rgb(" + red + "," + green + "," + blue + 
             ");stroke-width:3;stroke:rgb(0,0,0)\" />");
 }    
 //circle of color
-public static void circle(int cx, int cy, int r, int red, int green, int blue, int width) {
+public static void circle(double cx, double cy, double r, int red, int green, int blue, double width) {
     svgFile.println("<circle cx=\"" + cx + "\" cy=\"" + cy + "\" r=\"" + r + 
             "\" stroke=\"black\" stroke-width=\"3\" fill=\"red\" />");
 }    
 //ellipse of color
-public static void ellipse(int cx, int cy, int rx, int ry, int red, int green, int blue, int width) {
+public static void ellipse(double cx, double cy, double rx, double ry, int red, int green, int blue, double width) {
     svgFile.println("<ellipse cx=\"" + cx + "\" cy=\"" + cy + "\" rx=\"" + rx + "\" ry=\"" + ry +
             "\" stroke=\"black\" stroke-width=\"2\" fill=\"red\" />");
 }      

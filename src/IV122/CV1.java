@@ -70,6 +70,8 @@ public class CV1 {
         }
         System.out.println(sum);
         */
+        ImgV.folderName = "CV1_Images//";
+        ImgB.folderName = "CV1_Images//";
         System.out.println("BitMapTest");
         ImgB img = new ImgB(1000, 1000, "image");
         for (int i = 1; i < 1000; i++) {

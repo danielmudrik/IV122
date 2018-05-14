@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
  */
 public class ImgB {
     
+public static String folderName = "";
 private static File imgFile;
 private static BufferedImage img;
 
@@ -23,7 +24,8 @@ public ImgB(int width, int height, String fileName) {
 
 //init file of size and type
 public static BufferedImage init(int width, int height, String fileName) {
-    imgFile = new File(fileName + ".png");
+    imgFile = new File(folderName + fileName + ".png");
+    imgFile.getParentFile().mkdirs();
     img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     return img;
 }
