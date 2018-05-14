@@ -5,6 +5,12 @@
  */
 package IV122;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import javafx.util.Pair;
+
 /**
  *
  * @author Daniel Mudrik (433655)
@@ -50,6 +56,12 @@ public class CV4 {
         //B)
         // Ngon floodfill
         
+        ImgB.init(200, 200, "NgonScanFill");
+        int[] arrayX = {10,180,160,100,20};
+        int[] arrayY = {10,20,150,50,180};
+            ngonScanFill(arrayX, arrayY);
+        ImgB.save();
+        
         //C)
         
         //Reverse color
@@ -57,6 +69,75 @@ public class CV4 {
         //Separate parameters
         
         //Modulo color
+    }
+    
+    public static void ngonScanFill(int[] aX, int[] aY) {
+        //ImgB.flipImage = true;
+        int yMin = 200;
+        int yMax = 0;
+        
+        //initial white fill
+        for (int i = 0; i < 200; i++) {
+            for (int j = 0; j < 200; j++) {
+                ImgB.putPixel(i, j, 255, 255, 255);
+            }
+        }
+        //draw ngon outline
+        for (int i = 0; i < 5; i++) {
+            ImgB.drawLine(aX[i % 5], aY[i % 5], aX[(i+1) % 5], aY[(i+1) % 5], 0, 0, 0);
+            yMin = (aY[i] < yMin) ? aY[i] : yMin;
+            yMax = (aY[i] > yMax) ? aY[i] : yMax;
+        }
+        
+        //find white space inside ngon
+        int yMid = (yMin+yMax)/2;
+        int whiteX = 0;
+        boolean blackStart = false;
+        boolean whiteMid = false;
+        for (int j = 0; j < 200; j++) {
+            int black = ImgB.getPixel(j,yMid).getBlue();
+            if (!blackStart) {
+                if (black == 0) {
+                    blackStart = true;
+                }
+            } else {
+                if (black == 0 && whiteMid) {
+                    whiteX = j-1;
+                    break;
+                } else if (black != 0) {
+                    whiteMid = true;
+                }
+            }
+        }
+        blackFill(whiteX, yMid);
+        //ImgB.flipImage = false;
+    }
+    
+    public static void blackFill(int cX, int cY) {
+        Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
+        ImgB.putPixel(cX, cY, 0, 0, 0);
+        queue.add(new Pair(cX, cY));
+        
+        while (!queue.isEmpty()) {
+            Pair pixel = queue.remove();
+            int x = (Integer) pixel.getKey();
+            int y = (Integer) pixel.getValue();
+            for (int i = 1; i <= 4; i++) {
+                if (ImgB.getPixel(x+(i % 2)*Integer.signum(i-2),y+((i-1) % 2)*Integer.signum(i-3)).getBlue() == 255) {
+                    ImgB.putPixel(x+(i % 2)*Integer.signum(i-2), y+((i-1) % 2)*Integer.signum(i-3), 0, 0, 0);
+                    queue.add(new Pair(x+(i % 2)*Integer.signum(i-2), y+((i-1) % 2)*Integer.signum(i-3)));
+                }
+            }
+        }
+        
+        /*
+        if (ImgB.getPixel(x,y).getBlue() == 255) {
+            ImgB.putPixel(x, y, 0, 0, 0);
+            blackFill(x-1,y);
+            blackFill(x,y-1);
+            blackFill(x+1,y);
+            blackFill(x,y+1);
+        }*/
     }
     
     public static void fadedEllipse(int length1, int length2, double angleDegrees) {
@@ -138,5 +219,42 @@ public class CV4 {
                 }
             }
         }
+    }
+    
+    public static void bad() {
+        /*//complicated ugly polygon scan-line fill algorithm, 
+        //marking start and end points to fill with lines
+        
+        List<Integer> start = new ArrayList<>();
+        List<Integer> end = new ArrayList<>();
+        for (int i = yMin; i < yMax; i++) {
+            boolean shouldFill = false;
+            boolean filled = false;
+            for (int j = 0; j < 200; j++) {
+                int b = ImgB.getPixel(j,i).getBlue();
+                if (!shouldFill) {
+                    if (b == 0 && !filled) {
+                        shouldFill = true;
+                        start.add(j);
+                    }
+                    if (b != 0 && filled) {
+                        filled = false;
+                    }
+                } else {
+                    if (b == 0 && filled) {
+                        end.add(j);
+                        shouldFill = false;
+                    } else if (b != 0) {
+                        filled = true;
+                    }
+                }
+                
+            }
+            for (int k = 0; k < end.size(); k++) {
+                ImgB.drawLine(start.get(k), i, end.get(k), i, 0, 0, 0);
+            }
+            start.clear();
+            end.clear(); 
+       }*/
     }
 }

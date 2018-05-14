@@ -18,9 +18,11 @@ public class ImgB {
     public static String folderName = "";
     private static File imgFile;
     private static BufferedImage img;
-
+    private static int width = 1000;
+    private static int height = 1000;
     public ImgB(int width, int height, String fileName) {
-        
+        this.width = width;
+        this.height = height; 
         init(width, height, fileName);
     }
 
@@ -34,12 +36,24 @@ public class ImgB {
     //put pixel of color
     public static void putPixel(int x, int y, int red, int green, int blue) {
         if (flipImage) {
-            img.setRGB(x, 1000-y, new Color(red, green, blue).getRGB());
+            img.setRGB(x, height-y, new Color(red, green, blue).getRGB());
         } else {
             img.setRGB(x, y, new Color(red, green, blue).getRGB());
         }
         
     }
+    
+    public static Color getPixel(int x, int y) {
+        return new Color(img.getRGB(x, y));
+    }
+    
+    public static void drawLine(int x1, int y1, int x2, int y2, int red, int green, int blue) {
+        double distance = Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+        for (int i = 0; i < distance*2; i++) {
+            putPixel((int)(x1+0.5*i*(x2-x1)/distance), (int)(y1+0.5*i*(y2-y1)/distance), red, green, blue);
+        }
+    }
+    
     //save file
     public static void save() {
         try {
