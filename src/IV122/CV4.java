@@ -25,7 +25,7 @@ public class CV4 {
         ImgB.save();
         
         
-        //Color spiral - TODO: steps
+        //Color spiral
         ImgB.init(1000,1000,"ColorSpiral");
             colorSpiral(100, 5, 500, 500);
             colorSpiral(100, 5, 501, 500);
@@ -36,7 +36,16 @@ public class CV4 {
         
         //Color triangle
         
+        ImgB.init(1000,1000,"ColorTriangle");
+            colorTriangle(400);
+        ImgB.save();
+        
+        
         //Faded ellipse
+        
+        ImgB.init(1000,1000,"FadedEllipse");
+            fadedEllipse(200, 100, -45);
+        ImgB.save();
         
         //B)
         // Ngon floodfill
@@ -48,6 +57,47 @@ public class CV4 {
         //Separate parameters
         
         //Modulo color
+    }
+    
+    public static void fadedEllipse(int length1, int length2, double angleDegrees) {
+        int width = 1000, height = 1000, cX = 500, cY = 500;
+        double angle = Math.PI * angleDegrees / 180;
+        double cosA = Math.cos(angle);
+        double sinA = Math.sin(angle);
+        double a2 = length1*length1;
+        double b2 = length2*length2;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                double equation = Math.pow((i-cX)*cosA+(j-cY)*sinA,2)/a2 + Math.pow((i-cX)*sinA-(j-cY)*cosA,2)/b2;
+                if (equation < 1) {
+                    ImgB.putPixel(i, j, 0, 0, 0);
+                } else if (equation < 6) {
+                    ImgB.putPixel(i, j, (int)(255*(equation-1)/5), (int)(255*(equation-1)/5), (int)(255*(equation-1)/5));
+                }
+            }
+        }
+        //(i - cX)*Math.cos(angle) + (j-cY)*Math.sin(angle)
+    }
+    
+    public static void colorTriangle(int length) {
+        ImgB.flipImage = true;
+        double heightFactor = Math.sqrt(3)/2;
+        int height = (int)Math.round(length*heightFactor);
+        int[] triangleX = {500-length/2, 500+length/2, 500};
+        int[] triangleY = {500-height/2, 500-height/2, 500+height/2};
+        
+        int r=0, g=0, b=0;
+        
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < (int) Math.floor(height - Math.abs(2 * heightFactor * (length/2 - i))); j++) {
+                r = (int) Math.round((255 * i) / length + (255 * j / 2) / height);
+                g = (int) Math.round((255 * (length-i)) / length + (255 * j / 2) / height);
+                b = (int) Math.round((255 * (height-j)) / height);
+                
+                ImgB.putPixel(triangleX[0]+i, triangleY[0]+j, r, g, b);
+            }
+        }
+        ImgB.flipImage = false;
     }
     
     public static void colorSpiral(int radius, int steps, double x, double y) {
