@@ -36,7 +36,7 @@ public class ImgB {
     //put pixel of color
     public static void putPixel(int x, int y, int red, int green, int blue) {
         if (flipImage) {
-            img.setRGB(x, height-y, new Color(red, green, blue).getRGB());
+            img.setRGB(x, height-y-1, new Color(red, green, blue).getRGB());
         } else {
             img.setRGB(x, y, new Color(red, green, blue).getRGB());
         }

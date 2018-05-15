@@ -64,11 +64,93 @@ public class CV4 {
         
         //C)
         
-        //Reverse color
+        //Checkered circles
+        ImgB.init(1000, 1000, "CheckeredCircles");
+            checkered(50,480,500,500,255, true);
+            checkered(50,360,500,500,0, true);
+            checkered(50,240,500,500,255, true);
+            checkered(50,120,500,500,0, true);
+            for (int i = 0; i < 1000; i++) {
+                for (int j = 0; j < 1000; j++) {
+                    if (i < 225 || i > 775 || j < 225 || j > 775) {
+                        ImgB.putPixel(i, j, 255, 255, 255);
+                    }
+                }
+            }
+        ImgB.save();
         
-        //Separate parameters
         
-        //Modulo color
+        //Pulsing circles
+        
+        ImgB.init(1000, 1000, "PulsingCircles");
+            pulsing(20,300,500,500,false,false);
+            pulsing(20,200,500,500,true,false);
+            for (int i = 0; i < 1000; i++) {
+                for (int j = 0; j < 1000; j++) {
+                    if (i < 225 || i > 775 || j < 225 || j > 775) {
+                        ImgB.putPixel(i, j, 255, 255, 255);
+                    }
+                }
+            }
+        ImgB.save();
+        
+        //Modulo color lines
+        ImgB.init(1000, 1000, "ColorLines");
+            colorLines(8, 200);
+        ImgB.save();
+        
+    }
+    
+    public static void colorLines(int count, int thickness) {
+        int r = 0, g = 0, b = 0;
+        for (int x = 0; x < 1000; x++) {
+            for (int y = 0; y < 1000; y++) {
+                r = (x % thickness*1.5 < thickness) ? (int)(255*Math.sin(Math.PI*(x % thickness*1.5)/thickness)) : 0;
+                b = (y % thickness*1.5 < thickness) ? (int)(255*Math.sin(Math.PI*(y % thickness*1.5)/thickness)) : 0;
+                g = ((x+y) % thickness*1.5 < thickness) ? (int)(255*Math.sin(Math.PI*((x+y) % thickness*1.5)/thickness)) : 0;
+                
+                ImgB.putPixel(x, y, r, g, b);
+            }
+        }
+    }
+    
+    public static void pulsing(int step, int radius, int cX, int cY, boolean reverse, boolean circle) {
+        for (int x = cX-radius; x < cX+radius; x++) {
+            for (int y = cY-radius; y < cY+radius; y++) {
+                double distance = Math.sqrt((x-cX)*(x-cX)+(y-cY)*(y-cY));
+                int shade = 0;
+                //sin/cos to generate pulsing, divide by step to widen pulses
+                //abs to stay in positive integers
+                //-51 * 5/4 to make black lines thicker while keeping max value 255
+                if (reverse) {
+                    shade = (int)(Math.max((255*Math.abs(Math.sin(distance/step)))-51,0)*5/4);
+                } else {
+                    shade = (int)(Math.max((255*Math.abs(Math.cos(distance/step)))-51,0)*5/4);
+                }
+                if ((circle && distance < radius) || !circle) {
+                    ImgB.putPixel(x, y, shade, shade, shade);
+                }
+            }
+            
+        }
+    }
+    
+    public static void checkered(int side, int radius, int cX, int cY, int reverse, boolean circle) {
+        for (int x = cX-radius; x < cX+radius; x++) {
+            for (int y = cY-radius; y < cY+radius; y++) {
+                int shade = 0;
+                if (x % (side*2) < side ^ y % (side*2) < side) {
+                    shade = 255-reverse;
+                } else {
+                    shade = 0+reverse;
+                }
+                
+                if ((circle && (x-cX)*(x-cX)+(y-cY)*(y-cY) < radius*radius) || !circle) {
+                    ImgB.putPixel(x, y, shade, shade, shade);
+                }
+            }
+            
+        }
     }
     
     public static void ngonScanFill(int[] aX, int[] aY) {
@@ -84,7 +166,7 @@ public class CV4 {
         }
         //draw ngon outline
         for (int i = 0; i < 5; i++) {
-            ImgB.drawLine(aX[i % 5], aY[i % 5], aX[(i+1) % 5], aY[(i+1) % 5], 0, 0, 0);
+            ImgB.drawLine(aX[i % 5], 199-aY[i % 5], aX[(i+1) % 5], 199-aY[(i+1) % 5], 0, 0, 0);
             yMin = (aY[i] < yMin) ? aY[i] : yMin;
             yMax = (aY[i] > yMax) ? aY[i] : yMax;
         }
@@ -157,11 +239,11 @@ public class CV4 {
                 }
             }
         }
-        //(i - cX)*Math.cos(angle) + (j-cY)*Math.sin(angle)
+        //(x - cX)*Math.cos(angle) + (y-cY)*Math.sin(angle)
     }
     
     public static void colorTriangle(int length) {
-        ImgB.flipImage = true;
+        //ImgB.flipImage = true;
         double heightFactor = Math.sqrt(3)/2;
         int height = (int)Math.round(length*heightFactor);
         int[] triangleX = {500-length/2, 500+length/2, 500};
@@ -175,10 +257,10 @@ public class CV4 {
                 g = (int) Math.round((255 * (length-i)) / length + (255 * j / 2) / height);
                 b = (int) Math.round((255 * (height-j)) / height);
                 
-                ImgB.putPixel(triangleX[0]+i, triangleY[0]+j, r, g, b);
+                ImgB.putPixel(triangleX[0]+i, 999-(triangleY[0]+j), r, g, b);
             }
         }
-        ImgB.flipImage = false;
+        //ImgB.flipImage = false;
     }
     
     public static void colorSpiral(int radius, int steps, double x, double y) {
@@ -227,22 +309,22 @@ public class CV4 {
         
         List<Integer> start = new ArrayList<>();
         List<Integer> end = new ArrayList<>();
-        for (int i = yMin; i < yMax; i++) {
+        for (int x = yMin; x < yMax; x++) {
             boolean shouldFill = false;
             boolean filled = false;
-            for (int j = 0; j < 200; j++) {
-                int b = ImgB.getPixel(j,i).getBlue();
+            for (int y = 0; y < 200; y++) {
+                int b = ImgB.getPixel(y,x).getBlue();
                 if (!shouldFill) {
                     if (b == 0 && !filled) {
                         shouldFill = true;
-                        start.add(j);
+                        start.add(y);
                     }
                     if (b != 0 && filled) {
                         filled = false;
                     }
                 } else {
                     if (b == 0 && filled) {
-                        end.add(j);
+                        end.add(y);
                         shouldFill = false;
                     } else if (b != 0) {
                         filled = true;
@@ -251,7 +333,7 @@ public class CV4 {
                 
             }
             for (int k = 0; k < end.size(); k++) {
-                ImgB.drawLine(start.get(k), i, end.get(k), i, 0, 0, 0);
+                ImgB.drawLine(start.get(k), x, end.get(k), x, 0, 0, 0);
             }
             start.clear();
             end.clear(); 
