@@ -2,6 +2,7 @@ package IV122;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javafx.util.Pair;
 
@@ -19,15 +20,13 @@ public class CV5 {
         ImgV.folderName = "CV5_Images//";
         ImgB.folderName = "CV5_Images//";
         
-        //generate, data structure
-        
         //A)
         ImgV.init(width, height, "LineIntersects");
             lineIntersect(5, 200);
         ImgV.save();
         //B)
         ImgV.init(width, height, "Triangulation");
-            triangulate(50, 5);
+            triangulate(100, 20);
         ImgV.save();
         //C)
     }
@@ -36,22 +35,27 @@ public class CV5 {
         double step = width / steps;
         double[] x = new double[count];
         double[] y = new double[count];
+        List<Pair<Integer,Integer>> finalLines = new ArrayList<>();
+        finalLines.add(new Pair(0,1));
         List<Pair<Integer,Integer>> lines = new ArrayList<>();
-        lines.add(new Pair(0,1));
-        List<Pair<Integer,Integer>> indices = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             x[i] = Math.random()*width;
             y[i] = Math.random()*height;
             ImgV.circle(x[i], y[i], 4, 255, 0, 0, 1);
             for (int j = 0; j < count; j++) {
-                indices.add(new Pair(i,j));
+                lines.add(new Pair(i,j));
             }
-            
         }
-        Collections.shuffle(indices);
-        //lines from xi,yi to xj,yj
+        
+        Collections.shuffle(lines);
+        // randomly go through lines
+        // start with smallest lines (smaller than s*step)and iterate 
+        
+        //list of lines of distance between step*(s-1) and step*s
+        List<Pair<Integer,Integer>> used = new ArrayList<>();
         for (int s = 1; s <= steps; s++) {
-            for (Pair<Integer,Integer> p: indices) {
+            
+            for (Pair<Integer,Integer> p: lines) {
                 int i = p.getKey();
                 int j = p.getValue();
                 if (j==i) {
@@ -63,7 +67,7 @@ public class CV5 {
                 }
                 
                 boolean intersected = false;
-                for(Pair<Integer,Integer> line: lines) {
+                for(Pair<Integer,Integer> line: finalLines) {
                     Pair<Boolean, Pair<Double,Double>> inter = intersects(x[i],y[i],x[j],y[j],x[line.getKey()],y[line.getKey()],x[line.getValue()], y[line.getValue()]);
                     if (inter.getKey()) {
                         intersected = true;
@@ -71,13 +75,16 @@ public class CV5 {
                     }
                 }
                 if (!intersected) {
-                    lines.add(new Pair(i,j));
+                    finalLines.add(new Pair(i,j));
                 }
-            
+                used.add(p);
             }
+            //remove all lines which were shorter than s*step to save time on next iterations
+            lines.removeAll(used);
+            used.clear();
         }
         
-        for(Pair<Integer,Integer> line: lines) {
+        for(Pair<Integer,Integer> line: finalLines) {
             ImgV.line(x[line.getKey()], y[line.getKey()], x[line.getValue()], y[line.getValue()], 0, 0, 0, 1);
             System.out.println(x[line.getKey()] + " " + y[line.getKey()]);
         }
@@ -115,7 +122,7 @@ public class CV5 {
     }
     
     public static Pair<Boolean, Pair<Double,Double>> intersects(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
-                if ((x1 == x3 && y1 == y3) || (x1 == x4 && y1 == y4) || (x2 == x3 && y2 == y3) || (x2 == x4 && y2 == y4)) {
+                if ((e(x1,x3) && e(y1,y3)) || (e(x1,x4) && e(y1,y4)) || (e(x2,x3) && e(y2,y3)) || (e(x2,x4) && e(y2,y4))) {
                     return new Pair(false, new Pair(0,0));
                 }
                 double interX = ((x1*y2-y1*x2)*(x3-x4)-(x1-x2)*(x3*y4-y3*x4)) /
@@ -136,6 +143,13 @@ public class CV5 {
         return Math.sqrt((x-x2)*(x-x2)+(y-y2)*(y-y2));
     }
     
+    public static boolean e(double x, double y) {
+        if (Math.abs(x-y) < 0.01) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     
     
 }
