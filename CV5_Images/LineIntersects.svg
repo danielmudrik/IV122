@@ -2,9 +2,50 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" height="1000" width="1000">
-<line x1="577.089065091993" y1="286.1860242770791" x2="473.2061134243635" y2="115.28157040644138" style="stroke:rgb(0,0,0);stroke-width:2.0" />
-<line x1="497.12775029200424" y1="772.5728156105298" x2="667.0545459651869" y2="667.0982494239631" style="stroke:rgb(0,0,0);stroke-width:2.0" />
-<line x1="351.75355150744383" y1="507.7397090495116" x2="335.4538455403515" y2="308.40501667162584" style="stroke:rgb(0,0,0);stroke-width:2.0" />
-<line x1="529.1040587233662" y1="696.8139739467169" x2="502.9399630330498" y2="498.5327592623501" style="stroke:rgb(0,0,0);stroke-width:2.0" />
-<line x1="454.50877627911143" y1="235.2212474008544" x2="629.2832375445541" y2="332.45235193728485" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="420.30759383959827" y1="394.69269498361734" x2="417.7749510441628" y2="194.70873132535115" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="384.55981666403136" y1="514.6546359393901" x2="267.97099829070635" y2="352.15218232618514" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="306.67201675013337" y1="503.34469094769634" x2="503.244500719657" y2="466.4765672355874" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="698.7939306465178" y1="377.60361144859667" x2="790.0193143697209" y2="199.62066461223722" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="283.3387938860566" y1="538.1764745893097" x2="89.86254167233164" y2="588.841450947057" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="499.2770726962774" y1="354.9130133680294" x2="613.2756795586475" y2="190.58310850151165" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="444.29647069942575" y1="535.8062829040078" x2="429.0209010890477" y2="735.2220720809897" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="792.2021734793885" y1="710.9917281009316" x2="828.1344820950017" y2="907.7374248710321" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="355.20430968690573" y1="641.539297537159" x2="381.8176311970741" y2="443.3178781138373" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="709.7635923761279" y1="610.3322272409152" x2="703.68485275641" y2="410.42462627327905" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="672.4388769846109" y1="668.5372993957337" x2="829.3882193771908" y2="792.5006162380025" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="798.704480883849" y1="296.1320497155379" x2="860.4258883841417" y2="105.89412537818919" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="282.9780235212415" y1="288.66542941807586" x2="83.9813157955877" y2="268.65767306333373" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="462.12331326654856" y1="704.8894479006678" x2="376.92955844378844" y2="885.8370208028746" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="367.46604135838356" y1="701.1100532218205" x2="529.6854155757749" y2="584.1276843429251" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="431.8836031260421" y1="238.06679868237995" x2="384.3576932738191" y2="432.3379697107093" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="538.8037333785369" y1="374.86128255046515" x2="571.7126710163404" y2="572.1352084087781" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="298.9702277781633" y1="561.9157671282658" x2="352.739125592244" y2="369.27904781478975" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="558.6070830724232" y1="411.15408418352706" x2="423.1460309670738" y2="264.0136636237372" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="479.1364193420455" y1="456.55773880828224" x2="322.91345096734017" y2="581.4352153690929" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<circle cx="418.9914417449016" cy="290.7659536567528" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="368.1700448356074" cy="491.8104372122776" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="374.181961441924" cy="500.1898960066548" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="332.4389347366084" cy="442.0081221839319" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="368.1700448356074" cy="491.8104372122776" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="375.4913518481772" cy="490.43729053771244" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="315.79628777227646" cy="501.63338961989024" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="455.5332271179158" cy="475.425048233996" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="502.52280897432297" cy="350.2342585264288" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="435.38584266933776" cy="652.1305815066135" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="803.3294496906994" cy="771.9186152310398" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="374.181961441924" cy="500.1898960066548" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="375.4913518481772" cy="490.43729053771244" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="368.12623292604576" cy="545.2941909215542" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="803.3294496906994" cy="771.9186152310398" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="435.38584266933776" cy="652.1305815066135" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="418.9914417449016" cy="290.7659536567528" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="425.03427802565136" cy="266.06471418034886" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="541.8153583429275" cy="392.91458729330145" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="332.4389347366084" cy="442.0081221839319" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="315.79628777227646" cy="501.63338961989024" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="502.52280897432297" cy="350.2342585264288" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="425.03427802565136" cy="266.06471418034886" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="541.8153583429275" cy="392.91458729330145" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="455.5332271179158" cy="475.425048233996" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="368.12623292604576" cy="545.2941909215542" r="4.0" stroke="black" stroke-width="3" fill="red" />
 </svg>

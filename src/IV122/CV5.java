@@ -22,16 +22,58 @@ public class CV5 {
         
         //A)
         ImgV.init(width, height, "LineIntersects");
-            lineIntersect(5, 200);
+            lineIntersect(20, 200);
         ImgV.save();
         //B)
         ImgV.init(width, height, "Triangulation");
-            triangulate(100, 20);
+            triangulate(40, 50);
         ImgV.save();
         //C)
+        ImgV.init(width, height, "ConvexHull");
+            convexHull(40);
+        ImgV.save();
+        
+    }
+    
+    public static void convexHull(int count) {
+        //Jarvis' gift wrap method from wikipedia
+        double[] x = new double[count];
+        double[] y = new double[count];
+        int p = 0;
+        for (int i = 0; i < count; i++) {
+            x[i] = Math.random()*width;
+            y[i] = Math.random()*height;
+            ImgV.circle(x[i], y[i], 2, 255, 0, 0, 1);
+            p = (x[i] < x[p]) ? i : p;
+        }
+        List<Integer> hull = new ArrayList<>();
+        int end = 0;
+        do {
+            hull.add(p);
+            end = 0;
+            for (int j = 0; j < count; j++) {
+                if (end == p || anglePoint(x[p],y[p],x[end],y[end],x[j],y[j]) < 0) {
+                    end = j;
+                }
+            }
+            p = end;
+        } while(end != hull.get(0));
+        
+        for (int i = 0; i < hull.size(); i++) {
+            ImgV.line(x[hull.get(i)], y[hull.get(i)], x[hull.get((i+1) % hull.size())], y[hull.get((i+1) % hull.size())], 255, 0, 0, 3);
+        }
+        
+    }
+    
+    public static double anglePoint(double x1, double y1, double x2, double y2, double x, double y) {
+        //double atanA = Math.atan((y2-y1)/(x2-y1))*180/Math.PI;
+        //double atanB = Math.atan((y4-y3)/(x4-y3))*180/Math.PI;
+        
+        return (x-x1)*(y2-y1) - (y - y1)*(x2-x1);
     }
     
     public static void triangulate(int count, int steps) {
+        
         double step = width / steps;
         double[] x = new double[count];
         double[] y = new double[count];
