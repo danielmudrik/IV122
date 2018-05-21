@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" height="1000" width="1000">
+<line x1="676.5018199851852" y1="339.9788482444243" x2="842.001461298797" y2="452.2725200388127" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="609.8193835982171" y1="308.2091176679733" x2="464.64012949508856" y2="170.64827957057278" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="744.1417275709578" y1="474.4898509562947" x2="866.1644825636938" y2="632.9526139764525" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="534.5829215608853" y1="243.52017192864713" x2="683.2176212057814" y2="109.70041979365197" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<line x1="677.4619619232747" y1="586.0944023027803" x2="678.284074810051" y2="386.09609198391433" style="stroke:rgb(0,0,0);stroke-width:2.0" />
+<circle cx="538.1543214539711" cy="240.30474612559098" r="4.0" stroke="black" stroke-width="3" fill="red" />
+<circle cx="538.1543214539711" cy="240.30474612559098" r="4.0" stroke="black" stroke-width="3" fill="red" />
+</svg>
