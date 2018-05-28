@@ -14,27 +14,65 @@ public class CV7 {
         
         //Newton fractals
         ImgB.init(width, height, "NewtonFractal");
-            //newton(-3,-3,6);
+            newton(-3,-3,6);
         ImgB.save();
         //Mandelbrot
         ImgB.init(width, height, "Mandelbrot");
-            mandelbrot(-2,-1.5,3);
+            mandelbrot(-2.5,-2,4,4,0,0);
         ImgB.save();
-        //Julie
+        //Julia
+        ImgB.init(width, height, "JuliaSet");
+            julia(-2,-2,4,4,-0.13,0.75);
+        ImgB.save();
     }
     
-    public static void mandelbrot(double sX, double sY, double size) {
-        double x = 0, y = 0, oldX = 0;
-        double addX = size/(double)width;
-        double addY = size/(double)height;
-        for (double cX = sX; cX < sX+size; cX+=addX) {
-            for (double cY = sY; cY < sY+size; cY+=addY) {
-                x = 0;
-                y = 0;
+    public static void julia(double sX, double sY, double sizeX, double sizeY, double cX, double cY) {
+        double oldX = 0;
+        double addX = sizeX/(double)width;
+        double addY = sizeY/(double)height;
+        int maxIters = 50;
+        for (double x = sX; x < sX+sizeX; x+=addX) {
+            for (double y = sY; y < sY+sizeY; y+=addY) {
+                double zX = x;
+                double zY = y;
                 int i = 0;
                 double sum = 0;
                 double distance = 0;
-                for (i = 0; i < 30; i++) {
+                for (i = 0; i < maxIters; i++) {
+                    oldX = zX*zX-zY*zY+cX;
+                    zY = 2*zX*zY+cY;
+                    zX = oldX;
+                    
+                    distance = Math.sqrt(zX*zX+zY*zY);
+                    if (distance > 2) {
+                        break;
+                    }
+                    sum += distance;
+                }
+                sum = Math.min(2,sum/(double)maxIters);
+                
+                if (i == maxIters) {
+                    ImgB.putPixel((int)((x-sX)/addX), (int)((y-sY)/addY),0,(int)(127*sum),255);
+                } else {
+                    ImgB.putPixel((int)((x-sX)/addX), (int)((y-sY)/addY),0,(int)(255 * i/maxIters),0);
+                }
+            }
+        }
+    }
+    
+    public static void mandelbrot(double sX, double sY, double sizeX, double sizeY, double zX, double zY) {
+        double x,y,oldX = 0;
+        double addX = sizeX/(double)width;
+        double addY = sizeY/(double)height;
+        int maxIters = 30;
+        for (double cX = sX; cX < sX+sizeX; cX+=addX) {
+            for (double cY = sY; cY < sY+sizeY; cY+=addY) {
+                x = zX;
+                y = zY;
+                int i = 0;
+                double sum = 0;
+                double distance = 0;
+                for (i = 0; i < maxIters; i++) {
                     oldX = x*x-y*y+cX;
                     y = 2*x*y+cY;
                     x = oldX;
@@ -45,12 +83,12 @@ public class CV7 {
                     }
                     sum += distance;
                 }
-                sum = sum/(double)30;
+                sum = Math.min(2,sum/(double)maxIters);
                 
-                if (i == 30) {
-                    ImgB.putPixel((int)((cX-sX)/addX), (int)((cY-sY)/addY),0,255,(int)(127*sum));
+                if (i == maxIters) {
+                    ImgB.putPixel((int)((cX-sX)/addX), (int)((cY-sY)/addY),0,(int)(127*sum),255);
                 } else {
-                    ImgB.putPixel((int)((cX-sX)/addX), (int)((cY-sY)/addY),7*i,0,0);
+                    ImgB.putPixel((int)((cX-sX)/addX), (int)((cY-sY)/addY),0,(int)(255 * i/maxIters),0);
                 }
                 
             }
