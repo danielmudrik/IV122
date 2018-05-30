@@ -21,9 +21,11 @@ public class CV8 {
         double[] x = {0,10,10,0};
         double[] y = {0,0,10,10};
         
-        double[][] xy1s = new double[x.length][x.length];
+        double[][] xy1s = new double[x.length][3];
         for (int i = 0; i < x.length; i++) {
-            
+            xy1s[i][0] = x[i];
+            xy1s[i][1] = y[i];
+            xy1s[i][2] = 1;
         }
         
         Matrix result = new Matrix();
@@ -38,6 +40,19 @@ public class CV8 {
         mts[2].translate(5,10);
         
         result = result.multiplyBackwards(mts);
-        System.out.println(result);
+        
+        for (int i = 0; i < 10; i++) {
+            linesFromPointArray(xy1s, x.length);
+            for (int j = 0; j < x.length; j++) {
+                xy1s[j] = result.applyToPoint(xy1s[j][0], xy1s[j][1]);
+            }
+            
+        }
+    }
+    
+    public static void linesFromPointArray(double[][] pts, int count) {
+        for (int i = 0; i < count; i++) {
+            ImgV.line(pts[i][0], pts[i][1], pts[(i+1) % count][0], pts[(i+1) % count][1], 0, 0, 0, 2);
+        }
     }
 }
