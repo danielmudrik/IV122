@@ -32,6 +32,19 @@ public class Matrix {
         }
     }
     
+    public double[] applyToPoint(double x, double y) {
+        double[] point = {x,y,1};
+        double[] xy1 = new double[3];
+        for (int i = 0; i < 3; i++) {
+            double sum = 0;
+            for (int j = 0; j < 3; j++) {
+                sum += (matrix[i][j]*point[j]);
+            }
+            xy1[i] = sum;
+        }
+        return xy1;
+    }
+    
     public Matrix multiply(Matrix other) {
         Matrix result = new Matrix();
         for (int i = 0; i < 3; i++) {
@@ -57,6 +70,32 @@ public class Matrix {
         matrix = multiply(rot).getMatrix();
     }
     
+    public void scale(double sx, double sy) {
+        Matrix scale = new Matrix();
+        double[][] sc = scale.getMatrix();
+        sc[0][0] = sx;
+        sc[1][1] = sy;
+        
+        matrix = multiply(scale).getMatrix();
+    }
+    
+    public void shear(double k) {
+        Matrix shear = new Matrix();
+        double[][] sh = shear.getMatrix();
+        sh[0][1] = k;
+        
+        matrix = multiply(shear).getMatrix();
+    }
+    
+    public void translate(double tx, double ty) {
+        Matrix trans = new Matrix();
+        double[][] tr = trans.getMatrix();
+        tr[0][2] = tx;
+        tr[1][2] = ty;
+        
+        matrix = multiply(trans).getMatrix();
+    }
+    
     public String toString() {
         StringBuilder res = new StringBuilder();
         
@@ -67,5 +106,13 @@ public class Matrix {
             res.append("\n");
         }
         return res.toString();
+    }
+    
+    public Matrix multiplyBackwards(Matrix[] mts) {
+        Matrix res = new Matrix();
+        for (int i = mts.length-1; i >= 0; i--) {
+            res = mts[i].multiply(res);
+        }
+        return res;
     }
 }
