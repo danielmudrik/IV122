@@ -19,6 +19,15 @@ public class Matrix {
         matrix = mat;
     }
     
+    public Matrix(double[] nums) {
+        matrix = new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                matrix[i][j] = nums[3*i + j];
+            }
+        }
+    }
+    
     public Matrix() {
         matrix = new double[3][3];
         for (int i = 0; i < 3; i++) {
@@ -60,6 +69,7 @@ public class Matrix {
     }
     
     public void rotate(double angle) {
+        angle = angle*-1;
         Matrix rot = new Matrix();
         double[][] rotation = rot.getMatrix();
         rotation[0][0] = Math.cos(angle*Math.PI/180);
@@ -110,6 +120,7 @@ public class Matrix {
     
     public Matrix multiplyBackwards(Matrix[] mts) {
         Matrix res = new Matrix();
+        res.matrix = matrix;
         for (int i = mts.length-1; i >= 0; i--) {
             res = mts[i].multiply(res);
         }
