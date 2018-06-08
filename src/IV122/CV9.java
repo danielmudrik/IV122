@@ -29,18 +29,18 @@ public class CV9 {
         
         //A) Monty Hall
         
-        //montyHall(10000);
+        montyHall(10000);
         System.out.println("");
         
         //B) Non-random sequences
         //checking for how often each number appears (single frequency test) 
         //and patterns of 2 (optionally more) numbers in a row (sequence frequency test, "serial test")
         //
-        //nonRandomSeq();
+        nonRandomSeq();
         
         //C) CLT
         
-        //CLT(1000,10);
+        CLT(1000,10);
         
         //D) Bayes
         

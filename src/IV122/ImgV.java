@@ -61,17 +61,19 @@ public class ImgV {
     public static void rect(double width, double height, int red, int green, int blue) {
         svgFile.println("<rect width=\"" + width + "\" height=\"" + height + 
                 "\" style=\"stroke:rgb(" + red + "," + green + "," + blue + 
-                ");stroke-width:3;stroke:rgb(0,0,0)\" />");
+                ");stroke-width:" + width + "\" />");
     }    
     //circle of color
     public static void circle(double cx, double cy, double r, int red, int green, int blue, double width) {
         svgFile.println("<circle cx=\"" + cx + "\" cy=\"" + cy + "\" r=\"" + r + 
-                "\" stroke=\"black\" stroke-width=\"3\" fill=\"red\" />");
+                "\" style=\"stroke:rgb(" + red + "," + green + "," + blue + 
+                ");stroke-width:" + width + "\" />");
     }    
     //ellipse of color
     public static void ellipse(double cx, double cy, double rx, double ry, int red, int green, int blue, double width) {
         svgFile.println("<ellipse cx=\"" + cx + "\" cy=\"" + cy + "\" rx=\"" + rx + "\" ry=\"" + ry +
-                "\" stroke=\"black\" stroke-width=\"2\" fill=\"red\" />");
+                "\" style=\"stroke:rgb(" + red + "," + green + "," + blue + 
+                ");stroke-width:" + width + "\" />");
     }      
     //other vector primitives
 
