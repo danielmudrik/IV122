@@ -5,6 +5,7 @@
  */
 package IV122;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,11 +58,137 @@ public class CV2 {
             }
             
          //C) Pi approximation
+            //monte carlo
+            System.out.println("1000 iterations of monte carlo: " + monteCarlo(1000));
+            System.out.println("PI - monte carlo 1 second approximation: " + (Math.PI - monteCarlo(-1)));
+         
+            //gregory leibnitz
+            System.out.println("1000 iterations of GL: " + gregoryLeibnitz(1000));
+            System.out.println("PI - GL 1 second approximation: " + (Math.PI - gregoryLeibnitz(-1)));
+         
+            //archimedes
+            System.out.println("1000 iterations of archimedes: " + archimedes(1000));
+            System.out.println("PI - archimedes 1 second approximation: " + (Math.PI - archimedes(-1)));
          
          //D) Powers
-         
+             //Logarithmic time modulo exponentiation
+             System.out.println("--Time in nanoseconds--");
+             System.out.println("Fast result = " + fastModuloExp(2,253,17));
+             System.out.println("Slow result = " + dumbModuloExp(2,253,17));
          
     }
+    
+    public static BigInteger dumbModuloExp(int a, int n, int k) {
+        BigInteger res = BigInteger.valueOf(1);
+        BigInteger base = BigInteger.valueOf(a);
+        double startingTime = System.nanoTime();
+        for (int i = 0; i < n; i++) {
+            res = res.multiply(base);
+        }
+        res = res.mod(BigInteger.valueOf(k));
+        System.out.println("Time to exp: " + (System.nanoTime() - startingTime));
+        return res;
+    }
+    
+    public static long fastModuloExp(int a, int n, int k) {
+        long res = 1;
+        int base = a;
+        int remaining = n;
+        double startingTime = System.nanoTime();
+        while (remaining > 0) {
+            if (remaining % 2 == 1) {
+                res = (res*base) % k;
+            }
+            base = (base*base) % k;
+            remaining /= 2;
+        }
+        System.out.println("Time to exp: " + (System.nanoTime() - startingTime));
+        return res;
+    }
+    
+    
+    public static double archimedes(int iters) {
+        double a = 2*Math.sqrt(3);
+        double b = 3;
+        if (iters < 0) {
+            iters = 0;
+            double startingTime = System.nanoTime();
+            double currentTime = startingTime;
+            //1 second = 1000000000 nanoseconds
+            
+            while (currentTime - startingTime < 1000000000) {
+                a = (2*a*b)/(a+b);
+                b = Math.sqrt(a*b);
+                
+                iters++;
+                currentTime = System.nanoTime();
+            }
+        } else {
+            //iteration mode
+            for (int i = 0; i < iters; i++) {
+                a = (2*a*b)/(a+b);
+                b = Math.sqrt(a*b);
+            }
+        }
+        
+        return a;
+    }
+    
+    public static double gregoryLeibnitz(int iters) {
+        double sum = 0;
+        //timed mode
+        if (iters < 0) {
+            iters = 0;
+            double startingTime = System.nanoTime();
+            double currentTime = startingTime;
+            //1 second = 1000000000 nanoseconds
+            
+            while (currentTime - startingTime < 1000000000) {
+                sum += Math.pow(-1, iters)/(double)(2*iters+1);
+                
+                iters++;
+                currentTime = System.nanoTime();
+            }
+        } else {
+            //iteration mode
+            for (int i = 0; i < iters; i++) {
+                sum += Math.pow(-1, i)/(double)(2*i+1);
+            }
+        }
+        return 4 * sum;
+    }
+    
+    public static double monteCarlo(int iters) {
+        double monteCarlo = 0;
+        int inside = 0;
+        //timed mode
+        if (iters < 0) {
+            iters = 0;
+            double startingTime = System.nanoTime();
+            double currentTime = startingTime;
+            //1 second = 1000000000 nanoseconds
+            while (currentTime - startingTime < 1000000000) {
+                double x = Math.random();
+                double y = Math.random();
+                if (x*x+y*y < 1) {
+                    inside++;
+                }
+                iters++;
+                currentTime = System.nanoTime();
+            }
+        } else {
+            //iteration mode
+            for (int i = 0; i < iters; i++) {
+                double x = Math.random();
+                double y = Math.random();
+                if (x*x+y*y < 1) {
+                    inside++;
+                }
+            }
+        }
+        monteCarlo =  4 * inside / (double) iters;
+        return monteCarlo;
+    } 
     
     public static void printPascalModulo(int[][] triangle, int modulo) {
         Random rand = new Random();
