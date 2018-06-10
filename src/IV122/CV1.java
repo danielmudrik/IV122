@@ -1,16 +1,182 @@
 package IV122;
 
+import java.util.HashSet;
+
 /**
  *
  * @author xmudrik1
  */
 public class CV1 {
 
+    
+    private static int width = 1000;
+    private static int height = 1000;
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /*int limit = 10000;
+        
+        highestDivs(10000);
+        uniqueNums(1000);
+        steps(10000);
+        primesThree(1000);
+        sequenceNSD(1000000);
+        
+        ImgV.folderName = "CV1_Images//";
+        ImgB.folderName = "CV1_Images//";
+        System.out.println("BitMapTest");
+        ImgB.init(width, height, "BitmapTest");
+        for (int i = 1; i < width; i++) {
+            for (int j = 1; j < height; j++) {
+                ImgB.putPixel(i, j, i / 4, 0, j / 4);
+            }
+            
+        }
+        ImgB.save();
+        System.out.println("StarTest");
+        lineStar(20,1000,"lineStarTest");
+        
+        System.out.println("Ulam Spiral");
+        ulamSpiral(41,200,"ulam41");
+        ImgB.init(width,height,"VisualizeNSD");
+            visualizeNSD();
+        ImgB.save();
+        ImgB.init(width,height,"VisualizeSpeedNSD");
+            visualizeSpeedNSD();
+        ImgB.save();
+    }
+    
+    public static void visualizeNSD() {
+        int highest = 0;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int modulo = modNSD(i+1,j+1)[0];
+                highest = (highest < modulo) ? modulo : highest;
+            }
+        }
+        double colorBase = 255/(double)highest;
+        
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int modulo = modNSD(i+1,j+1)[0];
+                ImgB.putPixel(i, j, 255-(int)(modulo*colorBase), 0, 0);
+            }
+        }
+    }
+    
+    public static void visualizeSpeedNSD() {
+        int slowestSlow = 0;
+        int slowestMod = 0;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int slow = slowNSD(i+1,j+1)[1];
+                int modulo = modNSD(i+1,j+1)[1];
+                slowestSlow = (slowestSlow < slow) ? slow : slowestSlow;
+                slowestMod = (slowestMod < modulo) ? modulo : slowestMod;
+            }
+        }
+        double slowColorBase = 255/(double)slowestSlow;
+        double modColorBase = 255/(double)slowestMod;
+        
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int slow = slowNSD(i+1,j+1)[1];
+                int modulo = modNSD(i+1,j+1)[1];
+                ImgB.putPixel(i, j, 255-(int)(slow*slowColorBase), 255-(int)(modulo*modColorBase), 0);
+            }
+        }
+    }
+    
+    public static int[] slowNSD(int a, int b) {
+        int steps = 0;
+        int tempA = a;
+        while (b > 0) {
+            tempA = a;
+            a = b;
+            b = tempA - b;
+            steps++;
+        }
+        return new int[]{a, steps};
+    }
+    
+    public static int[] modNSD(int a, int b) {
+        int steps = 0;
+        int tempA = a;
+        while (b > 0) {
+            tempA = a;
+            a = b;
+            b = tempA % b;
+            steps++;
+        }
+        return new int[]{a, steps};
+    }
+    
+    public static void sequenceNSD(int lim) {
+        int a = 1;
+        int b = 1;
+        int tempA = a;
+        int index = 2;
+        while (a < lim) {
+            tempA = a;
+            a = a + b + modNSD(a,b)[0];
+            b = tempA;
+            index++;
+        }
+        System.out.println(index + ". element is above " + lim);
+    }
+    
+    public static void primesThree(int lim) {
+        
+        int limit = lim;
+        int sum = 0;
+        for (int i = 0; i < limit; i++) {
+            if (isPrime(i) && notContainsThree(i)) {
+                sum += i;
+            }
+        }
+        System.out.println(sum);
+        
+    }
+    
+    public static void steps(int lim) {
+        
+        int limit = lim;
+        int highestSteps = 0;
+        int num = 1;
+        for (int i = 1; i < limit; i++) {
+            int currentSteps = collatzSteps(i);
+            if (currentSteps > highestSteps) {
+                highestSteps = currentSteps;
+                num = i;
+            }
+        }
+        
+        System.out.println("Num: " + num);
+        
+    }
+    
+    public static void uniqueNums(int lim) {
+        
+        HashSet<Integer> uniqueNums = new HashSet<Integer>();
+        int limit = lim;
+        
+        for (int i = 1; i < 31; i++) {
+            for (int j = 1; j < 31; j++) {
+                for (int k = 1; k < 31; k++) {
+                    if (i*i + j*j + k*k < limit) {
+                        uniqueNums.add(i*i + j*j + k*k);
+                    }
+                }
+            }
+        }
+        
+        System.out.println("Bad nums: " + (limit-uniqueNums.size()-1));
+       
+    }
+    
+    public static void highestDivs(int lim) {
+        int limit = lim;
         
         int divNumber = 1;
         int secondDivNumber = 1;
@@ -29,65 +195,7 @@ public class CV1 {
         }
         
         System.out.println("Highest: " + highestDivs + " at " + divNumber + ", Second: " +  oldHighestDivs + " at " + secondDivNumber);
-        */
-        /*
-        HashSet<Integer> uniqueNums = new HashSet<Integer>();
-        int limit = 1000;
         
-        for (int i = 1; i < 31; i++) {
-            for (int j = 1; j < 31; j++) {
-                for (int k = 1; k < 31; k++) {
-                    if (i*i + j*j + k*k < limit) {
-                        uniqueNums.add(i*i + j*j + k*k);
-                    }
-                }
-            }
-        }
-        
-        System.out.println("Bad nums: " + (limit-uniqueNums.size()-1));
-       */
-        /*
-        int limit = 10000;
-        int highestSteps = 0;
-        int num = 1;
-        for (int i = 1; i < limit; i++) {
-            int currentSteps = collatzSteps(i);
-            if (currentSteps > highestSteps) {
-                highestSteps = currentSteps;
-                num = i;
-            }
-        }
-        
-        System.out.println("Num: " + num);
-        */
-        /*
-        int limit = 1000;
-        int sum = 0;
-        for (int i = 0; i < limit; i++) {
-            if (isPrime(i) && notContainsThree(i)) {
-                sum += i;
-            }
-        }
-        System.out.println(sum);
-        */
-        ImgV.folderName = "CV1_Images//";
-        ImgB.folderName = "CV1_Images//";
-        System.out.println("BitMapTest");
-        ImgB img = new ImgB(1000, 1000, "image");
-        for (int i = 1; i < 1000; i++) {
-            for (int j = 1; j < 1000; j++) {
-                img.putPixel(i, j, i / 4, 0, j / 4);
-            }
-            
-        }
-        img.save();
-        System.out.println("StarTest");
-        lineStar(20,1000,"lineStarTest");
-        
-        System.out.println("Ulam Spiral");
-        ulamSpiral(41,200,"ulam41");
-        
-        //ImgB.init(1000,1000,"testNSD");
     }
     
     public static void lineStar(int divisions, int size, String fileName) {

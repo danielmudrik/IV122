@@ -33,35 +33,41 @@ public class CV13 {
         //B) Maze solution
         //three lamps - BFS each empty space, minimum
         String[] lampMaze = 
-        {   "A..X.XX",
-            ".X.X...",
-            ".....XB",
-            "X.XX.X.",
-            ".....X.",
-            ".XC.XX."  };
+        {   "A..#.##",
+            ".#.#...",
+            ".....#B",
+            "#.##.#.",
+            ".....#.",
+            ".#C.##."  };
         threeLamps(lampMaze);
     }
     
     public static void threeLamps(String[] maze) {
+        
         int n = maze.length;
+        for (int i = 0; i < n; i++) {
+            System.out.println(maze[i]);
+        }
         int m = maze[0].length();
-        System.out.println(n);
-        System.out.println(m);
         //convert String maze into graph with nodes and neighbors
         int[][] lamps = new int[3][2];
         boolean[][] nodes = new boolean[n][m];
         List<int[]>[][] neighbors = new ArrayList[n][m];
+        List<int[]>[][][] pathToABC = new ArrayList[n][m][3];
+        
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 neighbors[i][j] = new ArrayList<>();
+                for (int k = 0; k < 3; k++) {
+                    pathToABC[i][j][k] = new ArrayList<>();
+                }
             }
         }
-        int whiteNodes = 0;
+        
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 int[] pos = {i,j};
                 nodes[i][j] = true;
-                whiteNodes++;
                 switch (maze[i].charAt(j)) {
                     case 'A':
                         lamps[0] = pos;
@@ -76,12 +82,10 @@ public class CV13 {
                         break;
                     default:
                         nodes[i][j] = false;
-                        whiteNodes--;
                         break;
                 }
             }
         }
-        System.out.println(nodes[1][6]);
         //add neighboring white space to white space nodes
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -102,7 +106,7 @@ public class CV13 {
                 }
             }
         }
-        //for each non-X space, calculate BFS distance to A,B,C
+        //for each non-# space, calculate BFS distance to A,B,C
         // dist(A,A) = 0
         int[][][] distanceABC = new int[n][m][3];
         for (int i = 0; i < n; i++) {
@@ -115,11 +119,8 @@ public class CV13 {
                     
                     int[] start = {i,j};
                     int[] end = lamps[k];
-                    System.out.println("");
-                    System.out.println("Path for: " + Arrays.toString(start) + Arrays.toString(end));
                     if (Arrays.equals(end,start)) {
                         distanceABC[i][j][k] = 0;
-                        System.out.println("Letter");
                         continue;
                     }
                     boolean[][] visited = new boolean[n][m];
@@ -140,12 +141,10 @@ public class CV13 {
                             }
                         }
                     }
-                    //int shortestPathCounter = 0;
                     while (queue.size() != 0)
                     {
                         // Dequeue a vertex from queue and print it
                         int[] vertex = queue.poll();
-                        System.out.print("[" + vertex[0]+"," + vertex[1] + "] ");
                         
                         if (Arrays.equals(end,vertex)) {
                             break;
@@ -165,30 +164,80 @@ public class CV13 {
                             }
                             if (Arrays.equals(end,neighbor)) {
                                 break;
-                                //shortestPathCounter++;
                             }
                         }
                     }
                     
                     int length = 1;
-                    System.out.println("");
-                    System.out.println("[" + end[0] + "," + end[1] + "] ");
+                    pathToABC[i][j][k].add(end);
                     int[] previousNode = previousXY[end[0]][end[1]];
+                    //backtrack previousNode until end is reached
                     while (previousNode[0] != -1) {
-
+                         
+                        pathToABC[i][j][k].add(previousNode);
                         if (previousXY[previousNode[0]][previousNode[1]][0] != -1) {
-                            System.out.println("[" + previousNode[0] + "," + previousNode[1] + "] ");
+                           
                             previousNode = previousXY[previousNode[0]][previousNode[1]];
                             length++;
+                            
                         } else {
                             break;
                         }
             
                     }
+                    distanceABC[i][j][k] = length;
                     //System.out.println("[" + start[0] + "," + start[1] + "] ");
                 }
             }
             
+        }
+        //find position of tile which has the shortest distance to all 3 lamps
+        int[] crossPos = lamps[0];
+        int minSumPaths = distanceABC[lamps[0][0]][lamps[0][1]][0]+distanceABC[lamps[0][0]][lamps[0][1]][1]+distanceABC[lamps[0][0]][lamps[0][1]][2];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!nodes[i][j]) {
+                    continue;
+                } 
+                int sumPaths = distanceABC[i][j][0] + distanceABC[i][j][1] + distanceABC[i][j][2];
+                if (minSumPaths > sumPaths) {
+                    crossPos = new int[]{i,j};
+                    minSumPaths = sumPaths;
+                }
+            }
+        }
+        //tiles which must be converted from . to o
+        List<int[]> pathTiles = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            pathTiles.addAll(pathToABC[crossPos[0]][crossPos[1]][i]);
+        }
+        String[] newMaze = new String[n];
+        System.out.println("Solved maze: ");
+        //Create solved maze map
+        for (int i = 0; i < n; i++) {
+            StringBuilder mazeLine = new StringBuilder("");
+            //for continuing through 2 nested loops
+            outerloop:
+            for (int j = 0; j < m; j++) {
+                int[] pos = {i,j};
+                //if pos is one of the path tiles that need to be marked, mark it
+                if (pathTiles.stream().anyMatch(a -> Arrays.equals(a, pos))) {
+                    for (int k = 0; k < 3; k++) {
+                        //unless it's one of the Letters (A,B,C), in which case don't mark it
+                        if (Arrays.equals(lamps[k], pos)) {
+                            mazeLine.append(maze[i].charAt(j));
+                            continue outerloop;
+                        }
+                    }
+                    mazeLine.append("o");
+                } else {
+                    mazeLine.append(maze[i].charAt(j));
+                }
+            }
+            newMaze[i] = mazeLine.toString();
+        }
+        for (int i = 0; i < n; i++) {
+            System.out.println(newMaze[i]);
         }
         
     }

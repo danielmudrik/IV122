@@ -11,5 +11,7 @@ public class CV14 {
     public static void main(String args[]) {
         ImgV.folderName = "CV14_Images//";
         ImgB.folderName = "CV14_Images//";
+        
+        //make perfect maze, remove walls with 3 sides
     }
 }
