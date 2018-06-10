@@ -25,15 +25,171 @@ public class CV13 {
         int[][] maze4 = {{4,0,0,0,4},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{4,0,0,0,0}};
         int[] start = {0,0};
         int[] end = {4,4};
-        numberStepMaze(maze1,start,end);
+        //numberStepMaze(maze1,start,end);
         //numberStepMaze(maze2,start,end);
         //numberStepMaze(maze3,start,end);
-        numberStepMaze(maze4,start,end);
+        //numberStepMaze(maze4,start,end);
         
         //B) Maze solution
+        //three lamps - BFS each empty space, minimum
+        String[] lampMaze = 
+        {   "A..X.XX",
+            ".X.X...",
+            ".....XB",
+            "X.XX.X.",
+            ".....X.",
+            ".XC.XX."  };
+        threeLamps(lampMaze);
+    }
+    
+    public static void threeLamps(String[] maze) {
+        int n = maze.length;
+        int m = maze[0].length();
+        //convert String maze into graph with nodes and neighbors
+        int[][] lamps = new int[3][2];
+        boolean[][] nodes = new boolean[n][m];
+        List<int[]>[][] neighbors = new ArrayList[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                neighbors[i][j] = new ArrayList<>();
+            }
+        }
+        int whiteNodes = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                int[] pos = {i,j};
+                nodes[i][j] = true;
+                whiteNodes++;
+                switch (maze[i].charAt(j)) {
+                    case 'A':
+                        lamps[0] = pos;
+                        break;
+                    case 'B':
+                        lamps[1] = pos;
+                        break;
+                    case 'C':
+                        lamps[2] = pos;
+                        break;
+                    case '.':
+                        break;
+                    default:
+                        nodes[i][j] = false;
+                        whiteNodes--;
+                        break;
+                }
+            }
+        }
+        //add neighboring white space to white space nodes
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (nodes[i][j]) {
+                    for (int k = -1; k <= 1; k+=2) {
+                        if (valid(n, i+k) && valid(n, j)) {
+                            if (nodes[i+k][j]) {
+                                neighbors[i][j].add(new int[]{i+k, j});
+                            }
+                            
+                        }
+                        if (valid(n, i) && valid(n, j+k)) {
+                            if (nodes[i][j+k]) {
+                                neighbors[i][j].add(new int[]{i, j+k});
+                            }
+                        }
+                    }
+                }
+            }
+        }
         
+        //for each non-X space, calculate BFS distance to A,B,C
+        // dist(A,A) = 0
+        int[][][] distanceABC = new int[n][m][3];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!nodes[i][j]) {
+                    continue;
+                }
+                for (int k = 0; k < 3; k++) {
+                    //BFS
+                    
+                    int[] start = {i,j};
+                    int[] end = lamps[k];
+                    if (Arrays.equals(end,start)) {
+                        distanceABC[i][j][k] = 0;
+                        System.out.println("Letter");
+                        continue;
+                    }
+                    boolean[][] visited = new boolean[n][m];
+
+                    // Create a queue for BFS
+                    LinkedList<int[]> queue = new LinkedList<>();
+
+                    // Mark the current node as visited and enqueue it
+                    visited[i][j] = true;
+                    queue.add(start);
+
+                    //remember previous vertex, for reconstructing path
+                    int[][][] previousXY = new int[n][m][2];
+                    for (int x = 0; x < n; x++) {
+                        for (int y = 0; y < m; y++) {
+                            for (int z = 0; z < 2; z++) {
+                                previousXY[x][y][z] = -1;
+                            }
+                        }
+                    }
+                    //int shortestPathCounter = 0;
+                    while (queue.size() != 0)
+                    {
+                        // Dequeue a vertex from queue and print it
+                        int[] vertex = queue.poll();
+                        //System.out.print("[" + vertex[0]+"," + vertex[1] + "] ");
+                        if (Arrays.equals(end,vertex)) {
+                            break;
+                        }
+                        // Get all adjacent vertices of the dequeued vertex s
+                        // If a adjacent has not been visited, then mark it
+                        // visited and enqueue it
+                        List<int[]> adj = neighbors[vertex[0]][vertex[1]];
+                        for (int l = 0; l < adj.size(); l++) {
+                            int[] neighbor = adj.get(l);
+
+
+                            if (!visited[neighbor[0]][neighbor[1]]) {
+                                previousXY[neighbor[0]][neighbor[1]] = vertex;
+                                visited[neighbor[0]][neighbor[1]] = true;
+                                queue.add(neighbor);
+                            }
+                            if (Arrays.equals(end,neighbor)) {
+                                break;
+                                //shortestPathCounter++;
+                            }
+                        }
+                    }
+                    
+                    int length = 1;
+                    System.out.println("");
+                    System.out.println("Path for: [" + i + "," + j + "]");
+                    System.out.println("[" + end[0] + "," + end[1] + "] ");
+                    int[] previousNode = previousXY[end[0]][end[1]];
+                    while (previousNode[0] != -1) {
+
+                        if (previousXY[previousNode[0]][previousNode[1]][0] != -1) {
+                            System.out.println("[" + previousNode[0] + "," + previousNode[1] + "] ");
+                            previousNode = previousXY[previousNode[0]][previousNode[1]];
+                            length++;
+                        } else {
+                            break;
+                        }
+            
+                    }
+                    //System.out.println("[" + start[0] + "," + start[1] + "] ");
+                }
+            }
+            
+        }
         
     }
+    
+    
     
     public static void numberStepMaze(int[][] maze, int[] start, int[] end) {
         int n = maze.length;
