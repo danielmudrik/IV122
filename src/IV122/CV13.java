@@ -45,6 +45,8 @@ public class CV13 {
     public static void threeLamps(String[] maze) {
         int n = maze.length;
         int m = maze[0].length();
+        System.out.println(n);
+        System.out.println(m);
         //convert String maze into graph with nodes and neighbors
         int[][] lamps = new int[3][2];
         boolean[][] nodes = new boolean[n][m];
@@ -79,18 +81,19 @@ public class CV13 {
                 }
             }
         }
+        System.out.println(nodes[1][6]);
         //add neighboring white space to white space nodes
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (nodes[i][j]) {
                     for (int k = -1; k <= 1; k+=2) {
-                        if (valid(n, i+k) && valid(n, j)) {
+                        if (valid(n, i+k) && valid(m, j)) {
                             if (nodes[i+k][j]) {
                                 neighbors[i][j].add(new int[]{i+k, j});
                             }
                             
                         }
-                        if (valid(n, i) && valid(n, j+k)) {
+                        if (valid(n, i) && valid(m, j+k)) {
                             if (nodes[i][j+k]) {
                                 neighbors[i][j].add(new int[]{i, j+k});
                             }
@@ -99,7 +102,6 @@ public class CV13 {
                 }
             }
         }
-        
         //for each non-X space, calculate BFS distance to A,B,C
         // dist(A,A) = 0
         int[][][] distanceABC = new int[n][m][3];
@@ -113,6 +115,8 @@ public class CV13 {
                     
                     int[] start = {i,j};
                     int[] end = lamps[k];
+                    System.out.println("");
+                    System.out.println("Path for: " + Arrays.toString(start) + Arrays.toString(end));
                     if (Arrays.equals(end,start)) {
                         distanceABC[i][j][k] = 0;
                         System.out.println("Letter");
@@ -141,7 +145,8 @@ public class CV13 {
                     {
                         // Dequeue a vertex from queue and print it
                         int[] vertex = queue.poll();
-                        //System.out.print("[" + vertex[0]+"," + vertex[1] + "] ");
+                        System.out.print("[" + vertex[0]+"," + vertex[1] + "] ");
+                        
                         if (Arrays.equals(end,vertex)) {
                             break;
                         }
@@ -167,7 +172,6 @@ public class CV13 {
                     
                     int length = 1;
                     System.out.println("");
-                    System.out.println("Path for: [" + i + "," + j + "]");
                     System.out.println("[" + end[0] + "," + end[1] + "] ");
                     int[] previousNode = previousXY[end[0]][end[1]];
                     while (previousNode[0] != -1) {
