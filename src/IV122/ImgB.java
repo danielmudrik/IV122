@@ -26,6 +26,14 @@ public class ImgB {
         init(width, height, fileName);
     }
 
+    public static void setImg(BufferedImage image) {
+        img = image;
+    }
+    
+    public static BufferedImage getImg() {
+        return img;
+    }
+    
     //init file of size and type
     public static BufferedImage init(int width, int height, String fileName) {
         imgFile = new File(folderName + fileName + ".png");

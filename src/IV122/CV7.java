@@ -1,5 +1,10 @@
 package IV122;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageOutputStream;
+
 /**
  *
  * @author Daniel Mudrik (433655)
@@ -24,6 +29,18 @@ public class CV7 {
         ImgB.init(width, height, "JuliaSet");
             julia(-2,-2,4,4,-0.13,0.75);
         ImgB.save();
+        /*ImgB.folderName = "CV7_Images//MandelbrotGIF//";
+        
+        double x = -0.6912;
+        double y = 0.38735;
+        double last = 0.0002;
+        //BufferedImage[] imgs = new BufferedImage[120];
+        for (int i = 0; i < 120; i++) {
+            ImgB.init(width, height, "MandelBrot_" + i);
+            mandelbrot(x,y,1 - i/(double)130,1-i/(double)130,0,0);
+            ImgB.save();
+        }*/
+        
     }
     
     public static void julia(double sX, double sY, double sizeX, double sizeY, double cX, double cY) {
