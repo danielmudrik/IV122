@@ -32,26 +32,39 @@ public class CV6 {
         Turtle.init("SierpinskyTriangleL");
             char[] leftSTL = {'A','B'};
             String[] rightSTL = {"B-A-B", "A+B+A"};
-            lindenmayer(leftSTL, rightSTL, 9, 100, -60, true);
+            lindenmayer(leftSTL, rightSTL, 9, 100, -60, true, 180);
         Turtle.save();
         
         Turtle.init("Hilbert");
             char[] leftHil = {'A','B'};
             String[] rightHil = {"-BF+AFA+FB-", "+AF-BFB-FA+"};
-            lindenmayer(leftHil, rightHil, 5, 100, -90, false);
+            lindenmayer(leftHil, rightHil, 5, 100, -90, false, 180);
+        Turtle.save();
+        
+        Turtle.init("Tree");
+            char[] leftTree = {'A','F'};
+            String[] rightTree = {"F[+A]-A", "FF"};
+            lindenmayer(leftTree,rightTree, 8, 50, 45, false, 90);
+        Turtle.save();
+        
+        Turtle.init("Tree_2");
+            char[] leftTree2 = {'A','F'};
+            String[] rightTree2 = {"F-[[A]+A]+F[+FA]-A", "FF"};
+            lindenmayer(leftTree2,rightTree2, 5, 30, 25, false, 90);
         Turtle.save();
         
         
         
     }
     
-    public static void lindenmayer(char[] left, String[] right, int iters, double length, double angle, boolean def) {
-        Turtle.angle = 180;
+    public static void lindenmayer(char[] left, String[] right, int iters, double length, double angle, boolean def, double startAngle) {
+        Turtle.angle = startAngle;
         Turtle.x = 800;
         Turtle.y = 200;
         length = length/Math.pow(2, iters-3);
         Stack<Double> turtleX = new Stack<>();
         Stack<Double> turtleY = new Stack<>();
+        Stack<Double> angleT = new Stack<>();
         
         String finalString = String.valueOf(left[0]);
         for (int i = 0; i < iters; i++) {
@@ -80,10 +93,12 @@ public class CV6 {
                 case '[':
                     turtleX.push(Turtle.x);
                     turtleY.push(Turtle.y);
+                    angleT.push(Turtle.angle);
                     break;
                 case ']':
                     Turtle.x = turtleX.pop();
                     Turtle.y = turtleY.pop();
+                    Turtle.angle = angleT.pop();
                     break;
                 default:
                     if (def) {
