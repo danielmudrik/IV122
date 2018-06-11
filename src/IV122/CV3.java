@@ -121,10 +121,27 @@ public class CV3 {
         Turtle.save();
         
       // D) Custom drawings
-        Turtle.init("CustomCircles");
-        
+        Turtle.init("Lightning");
+            lightning(25, 3, 60);
+            Turtle.x = 500;
+            Turtle.y = 500;
+            Turtle.angle = 90+10;
+            lightning(25, 3, 60);
         Turtle.save();
         
+    }
+    
+    public static void lightning(int depth, double length, int cutoffAngle) {
+        
+        for (int i = 1; i < depth; i++) {
+            if (i % 2 == 0) {
+                Turtle.left((i*10 > cutoffAngle) ? cutoffAngle : i*10);
+            } else {
+                Turtle.right((i*10 > cutoffAngle) ? cutoffAngle : i*10);
+            }
+            Turtle.forward(length*i);
+            
+        }
     }
     
     public static void recursivePentaFlake(int depth, double radius) {
