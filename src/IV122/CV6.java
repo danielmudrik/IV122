@@ -18,7 +18,7 @@ public class CV6 {
         //A) Chaos Game
         
         ImgB.init(width, height, "ChaosGame");
-            chaosGame(5, 100, 0.3333, 200);
+            chaosGame(5, 10000, 0.3333, 200);
         ImgB.save();
         
         //B) Feigenbaum
